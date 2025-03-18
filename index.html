@@ -1,616 +1,266 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Қазақстан тарих сұрақтар</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Tree Presentation for 8th Grade by Miras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-image: url('/api/placeholder/1000/600');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23005baa' d='M30,10 L40,10 L70,90 L60,90 Z'/%3E%3Cpath fill='%23fdb913' d='M60,10 L70,10 L40,90 L30,90 Z'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%23fdb913'/%3E%3C/svg%3E");
-            background-size: 150px;
-            opacity: 0.05;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-        }
-
-        #intro {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .company-logo {
-            margin: 20px;
-            font-size: 32px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-
-        #green-games {
-            color: #009900;
-        }
-
-        #alash-group {
-            color: blue;
-        }
-
-        #main-menu, #game-container, #result-screen {
-            text-align: center;
-            display: none;
-            width: 80%;
-            max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .game-title {
-            font-size: 36px;
-            margin-bottom: 40px;
-            color: #333;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .menu-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 18px;
-            margin: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            width: 200px;
-        }
-
-        .menu-button:hover {
-            background-color: #45a049;
-        }
-
-        .footer-links {
-            position: fixed;
-            bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
-            max-width: 400px;
-        }
-
-        .footer-button {
-            background-color: #333;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        #credits-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 200;
-        }
-
-        .credits-content {
-            position: relative;
-            background-color: white;
-            margin: 15% auto;
-            padding: 20px;
-            width: 70%;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Стили для квиза */
-        #question-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        #question-text {
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        #options-container {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .option-button {
-            background-color: #f8f8f8;
-            border: 2px solid #ddd;
-            color: #333;
-            padding: 12px 20px;
-            text-align: left;
-            font-size: 16px;
-            margin: 5px 0;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.2s;
-        }
-
-        .option-button:hover {
-            background-color: #e8e8e8;
-            border-color: #ccc;
-        }
-
-        .correct-option {
-            background-color: #8eff8e !important;
-            border-color: #4CAF50 !important;
-        }
-
-        .wrong-option {
-            background-color: #ffb3b3 !important;
-            border-color: #ff5c5c !important;
-        }
-
-        #progress-container {
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        #progress-bar {
-            width: 0%;
-            height: 10px;
-            background-color: #4CAF50;
-            border-radius: 5px;
-            transition: width 0.3s;
-        }
-
-        #quiz-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        #next-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            display: none;
-        }
-
-        #result-screen {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        #score-display {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        #score-text {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        #audio-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 150;
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-        }
-
-        #audio-controls button {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            margin-left: 5px;
-        }
-
-        #volume-slider {
-            width: 80px;
-            margin-left: 10px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background: #0A0A0A; color: #E0E0E0; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #00FF7F; display: flex; justify-content: center; align-items: center; z-index: 2000; transition: opacity 1s ease; }
+        #loader.hidden { opacity: 0; pointer-events: none; }
+        #loader h1 { font-family: 'Orbitron', sans-serif; font-size: 4rem; color: #000; text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .container { width: 90%; max-width: 1600px; margin: 0 auto; padding: clamp(1rem, 3vw, 2rem); flex: 1 0 auto; display: none; }
+        .container.active { display: block; }
+        #intro { text-align: center; padding: 2rem; background: rgba(0, 255, 127, 0.1); margin-bottom: 2rem; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 255, 127, 0.3); }
+        #intro h1 { font-family: 'Orbitron', sans-serif; font-size: 3rem; color: #00FF7F; text-shadow: 0 0 15px rgba(0, 255, 127, 0.7); animation: fadeIn 2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #description-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; }
+        #description-modal.active { display: flex; }
+        #description-content { background: #121212; padding: clamp(1.5rem, 3vw, 2rem); border-radius: 10px; max-width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 0 20px rgba(0, 255, 127, 0.3); }
+        #close-modal { position: absolute; top: 1rem; right: 1rem; background: #FF4444; color: #FFF; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-family: 'Orbitron', sans-serif; }
+        #close-modal:hover { background: #CC0000; }
+        section { margin: clamp(2.5rem, 5vw, 4rem) 0; padding: clamp(2.5rem, 5vw, 3.5rem); background: rgba(18, 18, 18, 0.9); border-left: clamp(5px, 1.5vw, 7px) solid #00FF7F; border-radius: 18px; box-shadow: 0 15px 40px rgba(0, 255, 127, 0.25); opacity: 0; transform: translateY(40px); animation: slideIn 0.8s ease forwards; }
+        section:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0, 255, 127, 0.35); }
+        @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
+        h2, h3 { font-family: 'Orbitron', sans-serif; background: linear-gradient(90deg, #00FF7F, #00CC66); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 15px rgba(0, 255, 127, 0.7); margin-bottom: clamp(1.2rem, 3vw, 1.8rem); }
+        h2 { font-size: clamp(2rem, 5.5vw, 3rem); }
+        h3 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+        p, ul { margin-bottom: clamp(1.2rem, 3vw, 1.8rem); font-size: clamp(1.1rem, 2.5vw, 1.3rem); line-height: 2.2; color: #D0D0D0; text-shadow: 0 0 6px rgba(0, 255, 127, 0.25); }
+        ul { list-style-type: square; margin-left: 50px; }
+        .btn { background: linear-gradient(45deg, #00FF7F, #00CC66); color: #000; padding: clamp(0.7rem, 3vw, 1rem) clamp(1.5rem, 4.5vw, 2rem); font-family: 'Orbitron', sans-serif; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 20px rgba(0, 255, 127, 0.6); transition: all 0.3s ease; font-size: clamp(1rem, 2.5vw, 1.2rem); margin: 5px; }
+        .btn:hover { background: linear-gradient(45deg, #00CC66, #00FF7F); transform: translateY(-5px); }
+        .btn:active { transform: scale(0.95); }
+        .game-area { text-align: center; margin: clamp(2rem, 4.5vw, 2.5rem) 0; }
+        .game-item { display: inline-block; width: clamp(80px, 13vw, 100px); height: clamp(80px, 13vw, 100px); background-color: #66bb6a; color: white; text-align: center; line-height: clamp(80px, 13vw, 100px); margin: 10px; cursor: pointer; border-radius: 50%; transition: transform 0.2s; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 8px rgba(0, 255, 127, 0.7); }
+        .game-item:hover { transform: scale(1.2); background: linear-gradient(45deg, #00FF7F, #00CC66); }
+        .game-item.collected { opacity: 0.5; pointer-events: none; }
+        .descriptor { font-style: italic; color: #A0A0A0; margin-top: 20px; font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.6; }
+        .image { max-width: 100%; height: auto; border: 4px solid #00FF7F; border-radius: 12px; margin: clamp(2rem, 3.5vw, 2.5rem) 0; box-shadow: 0 0 25px rgba(0, 255, 127, 0.6); }
+        footer { text-align: center; padding: clamp(2rem, 4vw, 2.5rem); background: rgba(0, 0, 0, 0.9); font-size: clamp(1rem, 1.5vw, 1.2rem); box-shadow: 0 -6px 30px rgba(0, 255, 127, 0.4); border-top: 2px solid rgba(0, 255, 127, 0.4); flex-shrink: 0; }
+        @media (max-width: 1024px) { section { padding: clamp(2rem, 4.5vw, 3rem); } .game-item { width: clamp(70px, 13vw, 90px); height: clamp(70px, 13vw, 90px); line-height: clamp(70px, 13vw, 90px); } }
+        @media (max-width: 768px) { .container { padding: clamp(1.2rem, 3vw, 2rem); } section { margin: clamp(2rem, 4.5vw, 3rem) 0; padding: clamp(1.5rem, 4vw, 2.5rem); } .game-item { width: clamp(60px, 13vw, 80px); height: clamp(60px, 13vw, 80px); line-height: clamp(60px, 13vw, 80px); margin: 8px; } .image { margin: clamp(1.5rem, 3vw, 2rem) 0; } }
+        @media (max-width: 480px) { h2 { font-size: clamp(1.8rem, 5.5vw, 2.5rem); } h3 { font-size: clamp(1.4rem, 4.5vw, 2rem); } p, ul { font-size: clamp(0.9rem, 2.5vw, 1.1rem); } .game-item { width: clamp(50px, 13vw, 70px); height: clamp(50px, 13vw, 70px); line-height: clamp(50px, 13vw, 70px); margin: 6px; } .image { margin: clamp(1.2rem, 2.5vw, 1.5rem) 0; } .descriptor { font-size: clamp(0.8rem, 2.5vw, 1rem); } }
     </style>
 </head>
 <body>
-    <!-- Аудио элемент для музыки -->
-    <audio id="background-music" loop>
-        <source src="https://muzofond.fm/search/%D0%BD%D2%B1%D1%80%D0%B6%D0%B0%D0%BD%20%D1%82%D3%99%D0%B6%D1%96%D0%BA%D0%B5%D0%BD%D0%BE%D0%B2?artist=1" type="audio/mp3">
-        <!-- Здесь должна быть ссылка на мелодию Балбырауын -->
-    </audio>
-
-    <!-- Контроль музыки -->
-    <div id="audio-controls">
-        <button id="toggle-music">🔊</button>
-        <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5">
+    <div id="loader">
+        <h1>Loading Presentation</h1>
     </div>
+    <canvas id="particles-canvas"></canvas>
 
-    <!-- Интро с логотипами компаний -->
-    <div id="intro">
-        <div class="company-logo" id="green-games">GreenGamesStudio</div>
-        <div class="company-logo" id="alash-group">AlashGroup</div>
-    </div>
-
-    <!-- Главное меню игры -->
-    <div id="main-menu">
-        <h1 class="game-title">Қазақстан тарих сұрақтар</h1>
-        <button class="menu-button" id="start-game">Ойынды бастау</button>
-    </div>
-
-    <!-- Контейнер для игры (квиза) -->
-    <div id="game-container">
-        <h2 class="game-title">Қазақстан тарих сұрақтар</h2>
-
-        <div id="question-container">
-            <div id="question-text"></div>
-            <div id="options-container"></div>
-            <button id="next-button">Келесі сұрақ</button>
+    <div class="container" id="main-content">
+        <div id="intro">
+            <h1>By Miras</h1>
+            <button class="btn" onclick="openDescription()">Show Description</button>
         </div>
 
-        <div id="progress-container">
-            <div id="progress-bar"></div>
-            <div id="quiz-stats">
-                <span id="question-number">Сұрақ: 0/0</span>
-                <span id="score">Ұпай: 0</span>
+        <div id="description-modal">
+            <div id="description-content">
+                <button id="close-modal" onclick="closeDescription()">Close</button>
+                <h2>Presentation Description</h2>
+                <p>This presentation, created by Miras for 8th-grade students, explores the fascinating world of trees. It covers tree parts and functions, the natural beauty of Yosemite National Park, and the importance of trees to our environment. Engage with interactive True/False challenges to test your knowledge and earn rewards! Below are detailed stories and answers for each section:</p>
+                <h3>1. Tree Parts and Functions</h3>
+                <p><strong>Answers:</strong>
+                    - Roots - True (they anchor the tree deep into the earth, absorbing water and nutrients like silent workers beneath the soil, ensuring stability and nourishment).
+                    - Trunk - False (it not only supports the tree but acts as a vital conduit, transporting water and nutrients from roots to leaves, with its bark protecting the inner life).
+                    - Leaves - False (they take in carbon dioxide and release oxygen through photosynthesis, a magical process turning sunlight into life-giving air, not just oxygen intake).
+                    - Branches - False (they sprout from various points along the trunk, stretching out like arms to support leaves and provide homes for birds).
+                    <strong>Story:</strong> In the heart of a forest, trees stand as ancient guardians. Imagine a young oak, its roots digging deep into the earth, seeking water to fuel its growth. Its trunk, thick and sturdy, rises proudly, carrying life upward. Leaves shimmer in the sunlight, crafting oxygen as a gift to all living things, while branches sway, hosting nests and whispering secrets of the wild. Each part works in harmony, a symphony of nature that has thrived for centuries, teaching us resilience and balance.</p>
+
+                <h3>2. A Carpet of Colour: Yosemite National Park</h3>
+                <p><strong>Answers:</strong>
+                    - Yosemite - True (it lies majestically in California, USA, a sanctuary of natural wonders).
+                    - Waterfalls - False (they roar to life in spring with melting snow, not just summer, creating a spectacle of mist and sound).
+                    - Sequoias - False (they are the largest by volume, but coast redwoods claim the height title, standing like gentle giants).
+                    - Wildlife - False (the forests teem with deer, bears, and birds, a lively chorus of nature’s inhabitants).
+                    <strong>Story:</strong> Picture Yosemite National Park, a canvas of nature’s artistry in California, USA. In spring, waterfalls like Yosemite Falls cascade with the force of melted snow, their mist kissing the air. Towering sequoias, not the tallest but the mightiest by girth, stand as living history, some over 3,000 years old. Deer graze silently, bears roam, and birds sing, all thriving in this vibrant ecosystem, a testament to the park’s enduring beauty across seasons.</p>
+
+                <h3>3. Importance of Trees</h3>
+                <p><strong>Answers:</strong>
+                    - Trees provide oxygen - True (they produce oxygen via photosynthesis, a natural miracle sustaining life on Earth).
+                    - Deforestation has no impact - False (it releases carbon, disrupts climate balance, and endangers ecosystems).
+                    - Trees offer shelter only to birds - False (they house squirrels, insects, and countless creatures in their branches).
+                    - Planting trees reduces pollution - True (they absorb pollutants, filtering the air we breathe).
+                    <strong>Story:</strong> Trees are the lungs of our planet, standing tall as silent heroes. Imagine a forest where photosynthesis turns sunlight into oxygen, a gift for every breath we take. Yet, deforestation scars the land, releasing stored carbon and silencing wildlife homes—from squirrels to insects—while disrupting climate harmony. Planting new trees fights back, their leaves capturing pollutants, weaving a cleaner future, a legacy we must nurture for generations to come.</p>
             </div>
         </div>
+
+        <section id="slide1">
+            <h2>1. Tree Parts and Functions</h2>
+            <p>Explore the essential parts of a tree and their roles. Test your knowledge with True/False questions!</p>
+            <ul>
+                <li><strong>Roots</strong> anchor the tree and absorb water.</li>
+                <li><strong>Trunk</strong> is the central part that only supports the tree.</li>
+                <li><strong>Leaves</strong> help the tree breathe by taking in oxygen.</li>
+                <li><strong>Branches</strong> grow only from the top of the trunk.</li>
+            </ul>
+            <div class="game-area" id="game-area-1">
+                <h3>Tree True/False Challenge</h3>
+                <p>Click your answer for: <span id="current-question-1">Roots</span></p>
+                <div id="game1-true" class="game-item" onclick="checkAnswer(1, true)">True</div>
+                <div id="game1-false" class="game-item" onclick="checkAnswer(1, false)">False</div>
+                <p id="game1-result">Score: 0/4</p>
+            </div>
+            <p class="descriptor">(Check "Show Description" for answers and stories!)</p>
+            <img src="tree_diagram.jpg" alt="Tree Diagram" class="image">
+        </section>
+
+        <section id="slide2">
+            <h2>2. A Carpet of Colour: Yosemite National Park</h2>
+            <p>Discover the beauty of Yosemite. Test your understanding with True/False questions!</p>
+            <ul>
+                <li><strong>Yosemite</strong> is located in the United States.</li>
+                <li><strong>Waterfalls</strong> in Yosemite flow only in summer.</li>
+                <li><strong>Sequoias</strong> are the tallest trees in the park.</li>
+                <li><strong>Wildlife</strong> is absent in Yosemite’s forests.</li>
+            </ul>
+            <div class="game-area" id="game-area-2">
+                <h3>Yosemite True/False Quiz</h3>
+                <p>Click your answer for: <span id="current-question-2">Yosemite</span></p>
+                <div id="game2-true" class="game-item" onclick="checkAnswer(2, true)">True</div>
+                <div id="game2-false" class="game-item" onclick="checkAnswer(2, false)">False</div>
+                <p id="game2-result">Score: 0/4</p>
+            </div>
+            <p class="descriptor">(Check "Show Description" for answers and stories!)</p>
+            <img src="yosemite_park.jpg" alt="Yosemite National Park" class="image">
+        </section>
+
+        <section id="slide3">
+            <h2>3. Importance of Trees</h2>
+            <p>Understand why trees matter. Test yourself with True/False questions!</p>
+            <ul>
+                <li><strong>Trees</strong> provide oxygen for humans to breathe.</li>
+                <li><strong>Deforestation</strong> has no impact on climate.</li>
+                <li><strong>Trees</strong> offer shelter only to birds.</li>
+                <li><strong>Planting trees</strong> can help reduce pollution.</li>
+            </ul>
+            <div class="game-area" id="game-area-3">
+                <h3>Tree Importance True/False Game</h3>
+                <p>Click your answer for: <span id="current-question-3">Trees provide oxygen</span></p>
+                <div id="game3-true" class="game-item" onclick="checkAnswer(3, true)">True</div>
+                <div id="game3-false" class="game-item" onclick="checkAnswer(3, false)">False</div>
+                <p id="game3-result">Score: 0/4</p>
+            </div>
+            <p class="descriptor">(Check "Show Description" for answers and stories!)</p>
+        </section>
     </div>
 
-    <!-- Экран результатов -->
-    <div id="result-screen">
-        <h2 class="game-title">Ойын аяқталды!</h2>
-        <div id="score-display"></div>
-        <div id="score-text"></div>
-        <button class="menu-button" id="play-again">Қайта ойнау</button>
-        <button class="menu-button" id="back-to-menu">Мәзірге оралу</button>
-    </div>
-
-    <!-- Футер с кнопками -->
-    <div class="footer-links">
-        <button class="footer-button" id="credits-button">Кредит</button>
-        <button class="footer-button" id="exit-button">Шығу</button>
-        <a class="footer-button" href="https://greengamesstudio.kz" target="_blank" id="website-link">Біздің сайт</a>
-    </div>
-
-    <!-- Модальное окно кредитов -->
-    <div id="credits-modal">
-        <div class="credits-content">
-            <span class="close">&times;</span>
-            <h2>Кредит</h2>
-            <p>GreenGamesStudio</p>
-            <p>AlashGroup</p>
-        </div>
-    </div>
+    <footer>
+        <p>© 2025 Miras | 8th Grade Presentation</p>
+    </footer>
 
     <script>
-        // Вопросы и ответы для квиза
-        const questions = [
-            {
-                question: "Қазақ хандығы қай жылы құрылды?",
-                options: ["1465-1466 жж.", "1569-1570 жж.", "1370-1371 жж.", "1598-1599 жж."],
-                correctAnswer: 0
-            },
-            {
-                question: "Қазақ хандығының негізін қалаушылар кімдер?",
-                options: ["Абылай хан мен Бөгенбай батыр", "Керей хан мен Жәнібек хан", "Әбілқайыр хан мен Қасым хан", "Есім хан мен Тәуке хан"],
-                correctAnswer: 1
-            },
-            {
-                question: "Отырар кітапханасын қай ғасырда өртеді?",
-                options: ["10-шы ғасырда", "12-ші ғасырда", "13-ші ғасырда", "15-ші ғасырда"],
-                correctAnswer: 2
-            },
-            {
-                question: "'Жеті Жарғы' заңдар жинағының авторы кім?",
-                options: ["Қасым хан", "Абылай хан", "Тәуке хан", "Есім хан"],
-                correctAnswer: 2
-            },
-            {
-                question: "Қазақстан Республикасы тәуелсіздігін қай жылы жариялады?",
-                options: ["1986 жылы", "1989 жылы", "1991 жылы", "1995 жылы"],
-                correctAnswer: 2
-            },
-            {
-                question: "Қазақстанның тұңғыш ғарышкері кім?",
-                options: ["Талғат Мұсабаев", "Тоқтар Әубәкіров", "Айдын Айымбетов", "Владимир Джанибеков"],
-                correctAnswer: 1
-            },
-            {
-                question: "Қазақстанның астанасы Астана қаласына қай жылы көшірілді?",
-                options: ["1991 жылы", "1994 жылы", "1997 жылы", "2000 жылы"],
-                correctAnswer: 2
-            },
-            {
-                question: "Ұлы Отан соғысы кезінде 'Қара қыз' атанған қазақ қызы кім?",
-                options: ["Әлия Молдағұлова", "Мәншүк Мәметова", "Хиуаз Доспанова", "Роза Бағланова"],
-                correctAnswer: 1
-            },
-            {
-                question: "Қазақтың тұңғыш ғалым-ағартушысы, этнографы?",
-                options: ["Ахмет Байтұрсынов", "Шоқан Уәлиханов", "Әлихан Бөкейханов", "Абай Құнанбайұлы"],
-                correctAnswer: 1
-            },
-            {
-                question: "Қазақстан КСРО құрамына қай жылы кірді?",
-                options: ["1920 жылы", "1925 жылы", "1936 жылы", "1940 жылы"],
-                correctAnswer: 2
-            }
-        ];
-
-        // Переменные для игры
-        let currentQuestion = 0;
-        let score = 0;
-        let answered = false;
-
-        // Аудио элементы
-        const backgroundMusic = document.getElementById("background-music");
-        const toggleMusicButton = document.getElementById("toggle-music");
-        const volumeSlider = document.getElementById("volume-slider");
-        let isMusicPlaying = false;
-
-        // DOM элементы
-        const introEl = document.getElementById("intro");
-        const mainMenuEl = document.getElementById("main-menu");
-        const gameContainerEl = document.getElementById("game-container");
-        const resultScreenEl = document.getElementById("result-screen");
-        const questionTextEl = document.getElementById("question-text");
-        const optionsContainerEl = document.getElementById("options-container");
-        const nextButtonEl = document.getElementById("next-button");
-        const progressBarEl = document.getElementById("progress-bar");
-        const questionNumberEl = document.getElementById("question-number");
-        const scoreEl = document.getElementById("score");
-        const scoreDisplayEl = document.getElementById("score-display");
-        const scoreTextEl = document.getElementById("score-text");
-        const creditsModalEl = document.getElementById("credits-modal");
-
-        // Показать интро, затем перейти к главному меню
-        window.onload = function() {
-            setTimeout(function() {
-                introEl.style.opacity = "0";
-                setTimeout(function() {
-                    introEl.style.display = "none";
-                    mainMenuEl.style.display = "block";
-
-                    // Попытка воспроизвести музыку после взаимодействия пользователя
-                    document.body.addEventListener('click', startMusicOnUserInteraction, { once: true });
-                }, 1000);
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const container = document.getElementById('main-content');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                container.classList.add('active');
             }, 2000);
+        });
 
-            // Обработчики кнопок
-            document.getElementById("start-game").onclick = startGame;
-            document.getElementById("play-again").onclick = startGame;
-            document.getElementById("back-to-menu").onclick = backToMenu;
-            document.getElementById("credits-button").onclick = showCredits;
-            document.getElementsByClassName("close")[0].onclick = closeCredits;
-            nextButtonEl.onclick = loadNextQuestion;
+        const particleCanvas = document.getElementById('particles-canvas');
+        const particleCtx = particleCanvas.getContext('2d');
+        particleCanvas.width = window.innerWidth;
+        particleCanvas.height = window.innerHeight;
+        let particlesArray = [];
 
-            // Управление музыкой
-            toggleMusicButton.onclick = toggleMusic;
-            volumeSlider.oninput = adjustVolume;
-
-            // Закрыть модальное окно при нажатии вне его
-            window.onclick = function(event) {
-                if (event.target == creditsModalEl) {
-                    creditsModalEl.style.display = "none";
-                }
+        class Particle {
+            constructor() {
+                this.x = Math.random() * particleCanvas.width;
+                this.y = Math.random() * particleCanvas.height;
+                this.size = Math.random() * 6 + 1;
+                this.speedX = (Math.random() * 1.2 - 0.6);
+                this.speedY = (Math.random() * 1.2 - 0.6);
+                this.opacity = Math.random() * 0.6 + 0.2;
             }
-
-            // Кнопка выхода
-            document.getElementById("exit-button").onclick = function() {
-                if (confirm("Сіз шынымен шыққыңыз келе ме?")) {
-                    window.close(); // Это может не работать в некоторых браузерах
-                }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > particleCanvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > particleCanvas.height || this.y < 0) this.speedY *= -1;
             }
+            draw() {
+                particleCtx.fillStyle = `rgba(0, 255, 127, ${this.opacity})`;
+                particleCtx.beginPath();
+                particleCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                particleCtx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 200; i++) particlesArray.push(new Particle());
+        }
+
+        function animateParticles() {
+            particleCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+            particlesArray.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        initParticles();
+        animateParticles();
+
+        let scores = { 1: 0, 2: 0, 3: 0 };
+        let currentQuestions = { 1: 0, 2: 0, 3: 0 };
+        const questions = {
+            1: ['Roots', 'Trunk', 'Leaves', 'Branches'],
+            2: ['Yosemite', 'Waterfalls', 'Sequoias', 'Wildlife'],
+            3: ['Trees provide oxygen', 'Deforestation has no impact', 'Trees offer shelter only to birds', 'Planting trees reduces pollution']
+        };
+        const answers = {
+            1: [true, false, false, false],
+            2: [true, false, false, false],
+            3: [true, false, false, true]
         };
 
-        // Запустить музыку после первого взаимодействия пользователя
-        function startMusicOnUserInteraction() {
-            // Пытаемся запустить музыку
-            backgroundMusic.volume = volumeSlider.value;
-            backgroundMusic.play().then(() => {
-                isMusicPlaying = true;
-                toggleMusicButton.textContent = "🔊";
-            }).catch(error => {
-                console.log("Не удалось автоматически воспроизвести музыку:", error);
-            });
-        }
+        function checkAnswer(section, answer) {
+            const currentQuestion = currentQuestions[section];
+            const correctAnswer = answers[section][currentQuestion];
+            const gameArea = document.getElementById(`game-area-${section}`);
+            const result = document.getElementById(`game${section}-result`);
+            const currentQuestionElement = document.getElementById(`current-question-${section}`);
 
-        // Переключить музыку (вкл/выкл)
-        function toggleMusic() {
-            if (isMusicPlaying) {
-                backgroundMusic.pause();
-                toggleMusicButton.textContent = "🔇";
-            } else {
-                backgroundMusic.play();
-                toggleMusicButton.textContent = "🔊";
-            }
-            isMusicPlaying = !isMusicPlaying;
-        }
+            if (!document.getElementById(`game${section}-true`).classList.contains('collected') && !document.getElementById(`game${section}-false`).classList.contains('collected')) {
+                if (answer === correctAnswer) {
+                    if (answer) document.getElementById(`game${section}-true`).classList.add('collected');
+                    else document.getElementById(`game${section}-false`).classList.add('collected');
+                    scores[section]++;
+                    result.innerText = `Score: ${scores[section]}/4`;
 
-        // Настроить громкость
-        function adjustVolume() {
-            backgroundMusic.volume = volumeSlider.value;
-        }
-
-        // Начать игру
-        function startGame() {
-            currentQuestion = 0;
-            score = 0;
-            mainMenuEl.style.display = "none";
-            resultScreenEl.style.display = "none";
-            gameContainerEl.style.display = "block";
-            loadQuestion();
-        }
-
-        // Вернуться в меню
-        function backToMenu() {
-            resultScreenEl.style.display = "none";
-            mainMenuEl.style.display = "block";
-        }
-
-        // Показать кредиты
-        function showCredits() {
-            creditsModalEl.style.display = "block";
-        }
-
-        // Закрыть кредиты
-        function closeCredits() {
-            creditsModalEl.style.display = "none";
-        }
-
-        // Загрузить текущий вопрос
-        function loadQuestion() {
-            answered = false;
-            nextButtonEl.style.display = "none";
-
-            // Обновить прогресс
-            progressBarEl.style.width = `${(currentQuestion / questions.length) * 100}%`;
-            questionNumberEl.textContent = `Сұрақ: ${currentQuestion + 1}/${questions.length}`;
-            scoreEl.textContent = `Ұпай: ${score}`;
-
-            // Загрузить вопрос и варианты ответов
-            const question = questions[currentQuestion];
-            questionTextEl.textContent = question.question;
-
-            // Очистить предыдущие варианты
-            optionsContainerEl.innerHTML = "";
-
-            // Добавить варианты ответов
-            question.options.forEach((option, index) => {
-                const button = document.createElement("button");
-                button.className = "option-button";
-                button.textContent = option;
-                button.onclick = () => selectOption(index);
-                optionsContainerEl.appendChild(button);
-            });
-        }
-
-        // Выбрать вариант ответа
-        function selectOption(index) {
-            if (answered) return;
-            answered = true;
-
-            const correctIndex = questions[currentQuestion].correctAnswer;
-            const options = document.querySelectorAll(".option-button");
-
-            // Показать правильный и неправильный ответы
-            options[correctIndex].classList.add("correct-option");
-
-            if (index !== correctIndex) {
-                options[index].classList.add("wrong-option");
-            } else {
-                score += 10; // Добавить 10 очков за правильный ответ
-                scoreEl.textContent = `Ұпай: ${score}`;
-            }
-
-            // Показать кнопку "Далее"
-            nextButtonEl.style.display = "block";
-
-            // Если это последний вопрос, изменить текст кнопки
-            if (currentQuestion === questions.length - 1) {
-                nextButtonEl.textContent = "Нәтижелерді көру";
+                    if (scores[section] < 4) {
+                        currentQuestions[section]++;
+                        currentQuestionElement.innerText = questions[section][currentQuestions[section]];
+                        document.getElementById(`game${section}-true`).classList.remove('collected');
+                        document.getElementById(`game${section}-false`).classList.remove('collected');
+                    } else {
+                        if (section === 1) alert('Awesome! You aced the Tree Challenge! +10 points!');
+                        else if (section === 2) alert('Great job! Fun fact: Some Yosemite sequoias are over 3,000 years old!');
+                        else if (section === 3) alert('Congratulations! You earned the Eco-Warrior Badge!');
+                    }
+                } else {
+                    alert('Oops! Try again! Check "Show Description" for help.');
+                }
             }
         }
 
-        // Загрузить следующий вопрос или показать результаты
-        function loadNextQuestion() {
-            currentQuestion++;
-
-            if (currentQuestion < questions.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
+        function openDescription() {
+            document.getElementById('description-modal').classList.add('active');
         }
 
-        // Показать результаты
-        function showResults() {
-            gameContainerEl.style.display = "none";
-            resultScreenEl.style.display = "block";
-
-            const percentage = (score / (questions.length * 10)) * 100;
-            scoreDisplayEl.textContent = `Сіздің нәтижеңіз: ${score} ұпай (${percentage.toFixed(1)}%)`;
-
-            let message;
-            if (percentage >= 90) {
-                message = "Жақсы! Сіз Қазақстан тарихын керемет білесіз!";
-            } else if (percentage >= 70) {
-                message = "Жақсы нәтиже! Сіз Қазақстан тарихын жақсы білесіз.";
-            } else if (percentage >= 50) {
-                message = "Жаман емес. Біраз сұрақтарға дұрыс жауап бердіңіз.";
-            } else {
-                message = "Сізге Қазақстан тарихын тереңірек оқу керек шығар.";
-            }
-
-            scoreTextEl.textContent = message;
+        function closeDescription() {
+            document.getElementById('description-modal').classList.remove('active');
         }
     </script>
 </body>
